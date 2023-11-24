@@ -27,12 +27,12 @@ contract MultiSignature {
     }
 
 
-    function submitTransaction(address _to, uint amount) public payable {
+    function submitTransaction(address _to) public payable {
         require(_to!=address(0), "Invalid Receiver's Address");
-        require(amount>0, "Transfer Amount Must Be Greater Than 0");
+        require(msg.value>0, "Transfer Amount Must Be Greater Than 0");
         uint transactionId = transactions.length;
-        transactions.push(Transaction({to:_to, value: amount, executed: false }));
-        emit TransactionSubmitted(transactionId, msg.sender, _to, amount);
+        transactions.push(Transaction({to:_to, value: msg.value, executed: false }));
+        emit TransactionSubmitted(transactionId, msg.sender, _to, msg.value);
     }
 
     function confirmTransaction(uint _transactionId) public {
@@ -43,6 +43,10 @@ contract MultiSignature {
         if(isTransactionConfirmed(_transactionId)) {
             executeTransaction(_transactionId);
         }
+    }
+
+    function check() public pure returns (bool) {
+        return true;
     }
 
     function executeTransaction (uint _transactionId) public payable{
