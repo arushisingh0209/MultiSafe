@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import logo from "./logo.png";
 
+
 const LandingPage = () => {
   const navigate = useNavigate();
   let walletID = useRef(null);
@@ -47,7 +48,7 @@ const LandingPage = () => {
         className="btn btn-wide" 
         style={{ backgroundColor: "#72693E", color: "#FCFAD1" }} 
         onClick={() => handleSubmit()}>
-            Connect To Wallet
+            Connect Wallet
         </button>
       </div>
     </div>

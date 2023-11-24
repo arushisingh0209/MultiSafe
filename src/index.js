@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import Home from './components/Home/Home';
+import MakePayment from './components/MakePayment/MakePayment';
+import ApproveTransactions from './components/ApproveTransaction/Dashboard';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -12,6 +14,9 @@ root.render(
     <Routes>
       <Route exact path="/" element={<App />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/makepayment" element={<MakePayment />} />
+      <Route path="/approvetransactions" element={<ApproveTransactions />} />
+      
     </Routes>
   </BrowserRouter>
 );
