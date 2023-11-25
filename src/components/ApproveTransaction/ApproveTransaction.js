@@ -1,10 +1,28 @@
 import React, { useState, useEffect } from "react";
+import Web3 from 'web3';
 import NavBar from "../NavBar";
 import SideBar from "../SideBar";
 import axios from "axios";
+import smartContract from '../../truffle_abis/MultiSignature.json';
 
-const Dashboard = () => {
+const ApproveTransaction = () => {
   const [transactionDetails, setTransactionDetails] = useState([]);
+
+  const execute = async () => {
+    const web3 = new Web3(window.ethereum);
+    const contractData = smartContract.networks["5777"];
+
+    if (contractData) {
+      const multiSig = await new web3.eth.Contract(smartContract.abi, contractData.address);
+      const submit = await multiSig.methods.confirmTransaction(0).send({
+        from: localStorage.getItem('userWallet'),
+        address: contractData.address,
+        // value: Number(amount * 1e18).toString(16)
+      });
+      console.log(submit.blockHash, "submit")
+    }
+
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +63,7 @@ const Dashboard = () => {
             </ul>
           </div>
           <div>
-            <button className="btn btn-outline btn-primary">Execute</button>
+            <button className="btn btn-outline btn-primary" onClick={execute}>Execute</button>
           </div>
         </div>
       </div>
@@ -53,4 +71,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default ApproveTransaction;

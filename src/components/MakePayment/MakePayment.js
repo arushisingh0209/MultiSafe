@@ -38,22 +38,26 @@ const MakePayment = () => {
         value: Number(amount * 1e18).toString(16)
       });
       console.log(submit.blockHash, "submit")
-      
+
       /* CALL API HERE
       Create database 'TransactionRecord'
       store 1. Sender = localStorage.getItem('userWallet'), 
             2. Receiver = receiver
             3. Ether = amount
-      */     
-     console.log(amount)
-            
-              try {
-                const res = await axios.post("http://localhost:5000/PostTransactionRecord",{sender: await localStorage.getItem('userWallet'), receiver:receiver, ether:amount});
-                console.log(amount);
-              } catch (err) {
-                console.log(err);
-              }
-            
+      */
+      console.log(amount)
+
+      try {
+        const res = await axios.post("http://localhost:5000/PostTransactionRecord", { 
+          sender: await localStorage.getItem('userWallet'), 
+          receiver: receiver, 
+          ether: amount 
+        });
+        console.log(amount);
+      } catch (err) {
+        console.log(err);
+      }
+
     }
   };
 

@@ -45,10 +45,6 @@ contract MultiSignature {
         }
     }
 
-    function check() public pure returns (bool) {
-        return true;
-    }
-
     function executeTransaction (uint _transactionId) public payable{
         // require(isTransactionConfirmed(_transactionId), "Transaction not confirmed by all owners");
         require(_transactionId<transactions.length, "Invalid Transaction Id");

@@ -5,7 +5,7 @@ import './index.css';
 import App from './App';
 import Home from './components/Home/Home';
 import MakePayment from './components/MakePayment/MakePayment';
-import ApproveTransactions from './components/ApproveTransaction/Dashboard';
+import ApproveTransactions from './components/ApproveTransaction/ApproveTransaction';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
