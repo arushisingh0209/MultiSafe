@@ -15,6 +15,5 @@ const TransactionSchema = new Schema({
     },
 }
 )
-
 let Transaction = mongoose.model('transactionrecords', TransactionSchema);
 export default Transaction;
