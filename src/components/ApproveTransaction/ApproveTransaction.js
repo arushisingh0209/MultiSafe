@@ -29,6 +29,7 @@ const ApproveTransaction = () => {
       try {
         const res = await axios.post("http://localhost:5000/FetchTransactionDetails");
         setTransactionDetails(res.data); // Assuming res.data is an array of transaction details
+        console.log('HERE')
       } catch (err) {
         console.log(err);
       }
@@ -49,7 +50,7 @@ const ApproveTransaction = () => {
         <div className="flex flex-col space-y-6 space-x-12">
           <div className="dropdown space-x-12">
             <label tabIndex={0} className="btn m-1">
-              Click
+              Select Transaction
             </label>
             <ul
               tabIndex={0}
