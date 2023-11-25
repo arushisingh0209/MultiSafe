@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import smartContract from '../../truffle_abis/MultiSignature.json';
+import axios from "axios";
 import Web3 from 'web3';
 import NavBar from "../NavBar";
 import Sidebar from "../SideBar";
@@ -24,7 +25,8 @@ const MakePayment = () => {
   }
 
 
-  const handleExecute = async () => {
+  const handleExecute = async (event) => {
+    event.preventDefault();
     const web3 = new Web3(window.ethereum);
     const contractData = smartContract.networks["5777"];
 
@@ -42,7 +44,16 @@ const MakePayment = () => {
       store 1. Sender = localStorage.getItem('userWallet'), 
             2. Receiver = receiver
             3. Ether = amount
-      */
+      */     
+     console.log(amount)
+            
+              try {
+                const res = await axios.post("http://localhost:5000/PostTransactionRecord",{sender: await localStorage.getItem('userWallet'), receiver:receiver, ether:amount});
+                console.log(amount);
+              } catch (err) {
+                console.log(err);
+              }
+            
     }
   };
 
