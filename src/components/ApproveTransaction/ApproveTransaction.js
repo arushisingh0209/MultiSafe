@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Web3 from 'web3';
 import NavBar from "../NavBar";
 import SideBar from "../SideBar";
@@ -7,36 +7,37 @@ import smartContract from '../../truffle_abis/MultiSignature.json';
 
 const ApproveTransaction = () => {
   const [transactionDetails, setTransactionDetails] = useState([]);
+  // let selected = useRef(null);
+  const [selected, setSelected] = useState(-1);
+  console.log(selected)
 
-  const execute = async () => {
+  const approve = async () => {
     const web3 = new Web3(window.ethereum);
     const contractData = smartContract.networks["5777"];
 
     if (contractData) {
       const multiSig = await new web3.eth.Contract(smartContract.abi, contractData.address);
-      const submit = await multiSig.methods.confirmTransaction(0).send({
+      const submit = await multiSig.methods.confirmTransaction(selected).send({
         from: localStorage.getItem('userWallet'),
         address: contractData.address,
-        // value: Number(amount * 1e18).toString(16)
       });
       console.log(submit.blockHash, "submit")
     }
 
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.post("http://localhost:5000/FetchTransactionDetails");
-        setTransactionDetails(res.data); // Assuming res.data is an array of transaction details
-        console.log('HERE')
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const res = await axios.post("http://localhost:5000/FetchTransactionDetails");
+      setTransactionDetails(res.data.reverse()); // Assuming res.data is an array of transaction details
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
-  }, []); // Run the effect only once on mount
+  },[]); // Run the effect only once on mount
 
   return (
     <div>
@@ -55,16 +56,17 @@ const ApproveTransaction = () => {
             <ul
               tabIndex={0}
               className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              
             >
               {transactionDetails.map((transaction, index) => (
                 <li key={index}>
-                  <a>{`Sender: ${transaction.sender}, Receiver: ${transaction.receiver}, Ether: ${transaction.ether}`}</a>
+                  <a onClick={() => setSelected(index)}>{`Sender: ${transaction.sender}, Receiver: ${transaction.receiver}, Ether: ${transaction.ether}`}</a>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <button className="btn btn-outline btn-primary" onClick={execute}>Execute</button>
+            <button className="btn btn-outline btn-primary" onClick={approve}>Approve</button>
           </div>
         </div>
       </div>
