@@ -29,7 +29,7 @@ const ApproveTransaction = () => {
   const fetchData = async () => {
     try {
       const res = await axios.post("http://localhost:5000/FetchTransactionDetails");
-      setTransactionDetails(res.data.reverse()); // Assuming res.data is an array of transaction details
+      setTransactionDetails(res.data.reverse()); 
     } catch (err) {
       console.log(err);
     }
@@ -37,7 +37,7 @@ const ApproveTransaction = () => {
 
   useEffect(() => {
     fetchData();
-  },[]); // Run the effect only once on mount
+  },[]);
 
   return (
     <div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import smartContract from '../../truffle_abis/MultiSignature.json';
+import smartContract from "../../truffle_abis/MultiSignature.json";
 import axios from "axios";
-import Web3 from 'web3';
+import Web3 from "web3";
 import NavBar from "../NavBar";
 import Sidebar from "../SideBar";
 
@@ -22,8 +22,7 @@ const MakePayment = () => {
 
   const handleAmount = (event) => {
     setAmount(event.target.value);
-  }
-
+  };
 
   const handleExecute = async (event) => {
     event.preventDefault();
@@ -31,33 +30,31 @@ const MakePayment = () => {
     const contractData = smartContract.networks["5777"];
 
     if (contractData) {
-      const multiSig = await new web3.eth.Contract(smartContract.abi, contractData.address);
+      const multiSig = await new web3.eth.Contract(
+        smartContract.abi,
+        contractData.address
+      );
       const submit = await multiSig.methods.submitTransaction(receiver).send({
-        from: localStorage.getItem('userWallet'),
+        from: localStorage.getItem("userWallet"),
         address: contractData.address,
-        value: Number(amount * 1e18).toString(16)
+        value: Number(amount * 1e18).toString(16),
       });
-      console.log(submit.blockHash, "submit")
-
-      /* CALL API HERE
-      Create database 'TransactionRecord'
-      store 1. Sender = localStorage.getItem('userWallet'), 
-            2. Receiver = receiver
-            3. Ether = amount
-      */
-      console.log(amount)
+      console.log(submit.blockHash, "submit");
+      console.log(amount);
 
       try {
-        const res = await axios.post("http://localhost:5000/PostTransactionRecord", { 
-          sender: await localStorage.getItem('userWallet'), 
-          receiver: receiver, 
-          ether: amount 
-        });
+        const res = await axios.post(
+          "http://localhost:5000/PostTransactionRecord",
+          {
+            sender: await localStorage.getItem("userWallet"),
+            receiver: receiver,
+            ether: amount,
+          }
+        );
         console.log(amount);
       } catch (err) {
         console.log(err);
       }
-
     }
   };
 
@@ -70,7 +67,7 @@ const MakePayment = () => {
         <div>
           <Sidebar />
         </div>
-        <div>
+        <div className="left-0 flex flex-col justify-center item-center space-x-6">
           <div className="flex flex-col justify-center my-2">
             <div className="hero  bg-base-200">
               <div className="hero-content flex lg:flex-row-reverse">
@@ -93,7 +90,9 @@ const MakePayment = () => {
                         </div>
                         <div className="form-control">
                           <label className="label">
-                            <span className="label-text">Transfer Amount (ETH)</span>
+                            <span className="label-text">
+                              Transfer Amount (ETH)
+                            </span>
                           </label>
                           <input
                             type="text"
@@ -121,14 +120,20 @@ const MakePayment = () => {
               </div>
             </div>
           </div>
+          <div>
+            <button
+              className="btn btn-primary"
+              style={{
+                color: "#FCFAD1",
+                backgroundColor: "#72693E",
+                width: "200px",
+              }}
+              onClick={handleExecute}
+            >
+              TRANSFER
+            </button>
+          </div>
         </div>
-        <button
-          className="btn btn-primary"
-          style={{ backgroundColor: "#6096BA" }}
-          onClick={handleExecute}
-        >
-          TRANSFER
-        </button>
       </div>
     </div>
   );

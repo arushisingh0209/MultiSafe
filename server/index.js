@@ -39,9 +39,14 @@ app.post("/FetchTransactionDetails", async (req, res) => {
   const transactionDetails = await TransactionSchema.find();
     console.log(transactionDetails);
     res.send(transactionDetails);
-
 });
 
+app.post("/FetchTransactionHistory", async (req, res) => {
+  const{walletID} = req.body;
+  const transactionDetails = await TransactionSchema.find({receiver:walletID});
+    console.log(transactionDetails);
+    res.send(transactionDetails);
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

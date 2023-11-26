@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import smartContract from '../../truffle_abis/MultiSignature.json';
+import axios from "axios";
 import Web3 from 'web3';
 import SideBar from "../SideBar";
 import NavBar from "../NavBar";
@@ -28,18 +29,20 @@ const Home = () => {
             const bal = await web3.eth.getBalance(accounts[0]);
             setBalance(parseFloat(web3.utils.fromWei(bal, ['ether'])).toFixed(2));
 
-            // const submit = await multiSig.methods.submitTransaction('0x2e7117531C9b925b380AfD93206d0754eB81e471').send({
-            //     from: accounts[0],
-            //     address: contractData.address,
-            //     value: 2000000000000000000
-            // });
-            // console.log(submit)
+            try {
+                const res = await axios.post(
+                  "http://localhost:5000/FetchTransactionHistory",
+                  { walletID: accounts[0] }
+                );
+                console.log(res.data);
+                let TransactionRecord = res.data;
+              } catch (err) {
+                console.log(err);
+              }
 
         }
 
     };
-
-
     useEffect(() => {
         loadBlockchain();
     });
@@ -72,6 +75,28 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="p-4">
+        <table className="min-w-full bg-white border border-gray-300">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border-b text-left">Sender</th>
+              <th className="py-2 px-4 border-b text-left">Receiver</th>
+              <th className="py-2 px-4 border-b text-left">Ether</th>
+              <th className="py-2 px-4 border-b text-left">Specialization</th>
+            </tr>
+          </thead>
+          <tbody>
+            {TransactionRecord.map((Records, index) => (
+              <tr key={index}>
+                <td className="py-2 px-4 border-b text-left">{Records.Sender}</td>
+                <td className="py-2 px-4 border-b text-left">{Records.Receiver}</td>
+                <td className="py-2 px-4 border-b text-left">{Records.Ether}</td>
+                {/* <td className="py-2 px-4 border-b text-left">{Records.Area}</td> */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
                 </div>
             </div>
         </div>
