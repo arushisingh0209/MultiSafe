@@ -48,10 +48,6 @@ const SideBar = (Props) => {
             <li>
               <a style={{ color: "#72693E" }} onClick={() => { navigate('/approvetransactions') }}>Approve Transaction</a>
             </li>
-            <li>
-              <a style={{ color: "#72693E" }}>Execute Transaction</a>
-            </li>
-
           </ul>
         </div>
       </div>

@@ -70,7 +70,7 @@ const MakePayment = () => {
         <div>
           <Sidebar />
         </div>
-        <div>
+        <div className="left-0 flex flex-col justify-center item-center space-x-6">
           <div className="flex flex-col justify-center my-2">
             <div className="hero  bg-base-200">
               <div className="hero-content flex lg:flex-row-reverse">
@@ -124,7 +124,7 @@ const MakePayment = () => {
         </div>
         <button
           className="btn btn-primary"
-          style={{ backgroundColor: "#6096BA" }}
+          style={{color: "#FCFAD1", backgroundColor: "#6096BA", width: "200px",}}
           onClick={handleExecute}
         >
           TRANSFER
