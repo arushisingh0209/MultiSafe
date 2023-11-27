@@ -22,12 +22,14 @@ mongoose
 // Posting Transaction Record
 
 app.post("/PostTransactionRecord", async (req, res) => {
-  const { sender, receiver, ether } = req.body;
-  console.log(sender, receiver, ether);
+  const { sender, receiver, ether, executeAt } = req.body;
+  console.log(sender, receiver, ether, executeAt);
   const transactionRecords = new TransactionSchema({
-    sender: sender,
-    receiver: receiver,
+    sender: sender.toLowerCase(),
+    receiver: receiver.toLowerCase(),
     ether: ether,
+    executeAt: executeAt,
+    isExecutable: false
   });
 
   transactionRecords.save();
@@ -43,10 +45,47 @@ app.post("/FetchTransactionDetails", async (req, res) => {
 
 app.post("/FetchTransactionHistory", async (req, res) => {
   const{walletID} = req.body;
-  const transactionDetails = await TransactionSchema.find({receiver:walletID});
+  const transactionDetails = await TransactionSchema.find({receiver:walletID.toLowerCase()});
     console.log(transactionDetails);
     res.send(transactionDetails);
 });
+
+
+//Execute Transaction
+setInterval(() => {
+  TransactionSchema.find({}).then((transactionList) => {
+    if (transactionList) {
+      transactionList.forEach(async transaction => {
+        const now = new Date()
+        var transactionTime = new Date(transaction.executeAt);
+        if (!transaction.isExecutable && (transactionTime - now) < 0) {
+          console.log(transaction);
+          // if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
+          //   console.log('HERE')
+          //   const web3 = new Web3(window.ethereum);
+          //   const contractData = smartContract.networks["5777"];
+
+          //   if (contractData) {
+          //     const multiSig = await new web3.eth.Contract(
+          //       smartContract.abi,
+          //       contractData.address
+          //     );
+          //     const submit = await multiSig.methods.executeTransaction(0).send({
+          //       from: localStorage.getItem("userWallet"),
+          //       address: contractData.address,
+          //     });
+          //   }
+            await TransactionSchema.findByIdAndUpdate(transaction._id, { isExecutable: true });
+          // }
+        }
+      })
+    }
+  }).catch((err) => {
+    console.log(err);
+  });
+}, 1000);
+
+
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

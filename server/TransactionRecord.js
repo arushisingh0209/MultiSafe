@@ -13,6 +13,13 @@ const TransactionSchema = new Schema({
     ether: {
         type: Number,
     },
+    executeAt: {
+        type: String,
+        length: 25
+    },
+    isExecutable: {
+        type: Boolean
+    }
 }
 )
 let Transaction = mongoose.model('transactionrecords', TransactionSchema);
