@@ -2,22 +2,19 @@ import React, { useState, useEffect } from "react";
 import smartContract from '../../truffle_abis/MultiSignature.json';
 import axios from "axios";
 import Web3 from 'web3';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { DateTimePicker } from '@mui/x-date-pickers';
 import NavBar from "../NavBar";
 import Sidebar from "../SideBar";
 
 const MakePayment = () => {
   const [receiver, setReceiver] = useState("");
   const [amount, setAmount] = useState();
+  const [executeAt, setExecuteAt] = useState('');
 
   const handleReceiver = (event) => {
     setReceiver(event.target.value);
-
-    // Ensure the value starts with "0x"
-    // if (!newValue.startsWith("0x")) {
-    //   newValue = "0x" + newValue;
-    // }
-
-    // setWalletId(newValue);
   };
 
   const handleAmount = (event) => {
@@ -91,6 +88,7 @@ const MakePayment = () => {
                             required
                           />
                         </div>
+
                         <div className="form-control">
                           <label className="label">
                             <span className="label-text">Transfer Amount (ETH)</span>
@@ -104,18 +102,29 @@ const MakePayment = () => {
                             required
                           />
                         </div>
+
+                        <div>
+                          <div className="form-control">
+                            <label className="label">
+                              <span className="label-text">
+                                Lock Transaction Until
+                              </span>
+                            </label>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <DateTimePicker
+                                // defaultValue={dayjs('2022-04-17T15:30')} 
+                                label='Date & Time'
+                                value={executeAt}
+                                onChange={setExecuteAt}
+                              />
+                            </LocalizationProvider>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
 
-                    <div>
-                      {/* <button
-                        className="btn btn-primary"
-                        style={{ backgroundColor: "#6096BA" }}
-                        onClick={handleExecute}
-                      >
-                        TRANSFER
-                      </button> */}
-                    </div>
+                    
                   </form>
                 </div>
               </div>

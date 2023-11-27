@@ -17,7 +17,7 @@ const ApproveTransaction = () => {
     if (contractData) {
       const multiSig = await new web3.eth.Contract(smartContract.abi, contractData.address);
       //CHANGE 0 TO SELECTED
-      const submit = await multiSig.methods.confirmTransaction(2).send({
+      const submit = await multiSig.methods.confirmTransaction(1).send({
         from: localStorage.getItem('userWallet'),
         address: contractData.address,
       });
