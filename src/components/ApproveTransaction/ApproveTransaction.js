@@ -7,7 +7,7 @@ import smartContract from '../../truffle_abis/MultiSignature.json';
 
 const ApproveTransaction = () => {
   const [transactionDetails, setTransactionDetails] = useState([]);
-  const [selected, setSelected] = useState(-1);
+  const [selected, setSelected] = useState(0);
   console.log(selected)
 
   const approve = async () => {
@@ -48,6 +48,8 @@ const ApproveTransaction = () => {
         <div>
           <SideBar />
         </div>
+
+
         {/* <div className="flex flex-col space-y-6 space-x-12">
           <div className="dropdown space-x-12">
             <label tabIndex={0} className="btn m-1">
@@ -68,6 +70,8 @@ const ApproveTransaction = () => {
             <button className="btn btn-outline btn-primary" onClick={approve} style={{ color: "#FCFAD1", backgroundColor: "#72693E" }}>Approve</button>
           </div>
         </div> */}
+
+
         <div className="flex flex-row mt-8 mx-auto ml-4" style={{ width: "100%"}}>
           <div className="p-2 w-2/3 h-20 shadow menu dropdown-content z-[1] bg-base-100 rounded-box flex flex-row justify-between">
             <select

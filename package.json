@@ -24,7 +24,7 @@
     "web3": "^4.2.2"
   },
   "scripts": {
-    "start": "concurrently \"truffle migrate --reset\" \"react-scripts start\"",
+    "start": "concurrently \"truffle migrate --reset\" \"cd server && npm start\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

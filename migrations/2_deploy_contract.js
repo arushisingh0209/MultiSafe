@@ -1,5 +1,5 @@
 var MultiSig = artifacts.require("MultiSignature");
 
 module.exports = async function(deployer) {
-  await deployer.deploy(MultiSig, ["0xb164767A45E8ef49073c30bd738Ad8807E01c477", "0x229Dcf15128038bF623227e84e9ec5B361f81c23"],2);
+  await deployer.deploy(MultiSig, ["0xa1Dd0bBBAFdfac170A8a531eFdA683ba4B238684", "0xB938D2A6DE9873Cc5116eba8A5eb7547DC91cAe8"],2);
 };

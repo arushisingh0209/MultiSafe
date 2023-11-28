@@ -144,7 +144,7 @@ const Home = () => {
                                                             borderRadius: "5px", // Optionally, you can add border radius for rounded corners
                                                             padding: "8px 16px",
                                                         }}
-                                                        onClick={() => { executeTransaction(index); UpdateExecution(Records._id) }}
+                                                        onClick={() => { executeTransaction(0); UpdateExecution(Records._id) }}
                                                     >
                                                         Execute
                                                     </button>
