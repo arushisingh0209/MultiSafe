@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-
 import TransactionSchema from "./TransactionRecord.js";
 
 dotenv.config();
@@ -60,23 +59,7 @@ setInterval(() => {
         var transactionTime = new Date(transaction.executeAt);
         if (!transaction.isExecutable && (transactionTime - now) < 0) {
           console.log(transaction);
-          // if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
-          //   console.log('HERE')
-          //   const web3 = new Web3(window.ethereum);
-          //   const contractData = smartContract.networks["5777"];
-
-          //   if (contractData) {
-          //     const multiSig = await new web3.eth.Contract(
-          //       smartContract.abi,
-          //       contractData.address
-          //     );
-          //     const submit = await multiSig.methods.executeTransaction(0).send({
-          //       from: localStorage.getItem("userWallet"),
-          //       address: contractData.address,
-          //     });
-          //   }
             await TransactionSchema.findByIdAndUpdate(transaction._id, { isExecutable: true });
-          // }
         }
       })
     }

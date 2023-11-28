@@ -48,7 +48,8 @@ const MakePayment = () => {
         const res = await axios.post("http://localhost:5000/PostTransactionRecord", { 
           sender: await localStorage.getItem('userWallet'), 
           receiver: receiver, 
-          ether: amount 
+          ether: amount,
+          executeAt: executeAt 
         });
         console.log(amount);
       } catch (err) {

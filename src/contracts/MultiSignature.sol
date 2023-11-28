@@ -40,13 +40,13 @@ contract MultiSignature {
         require(!isConfirmed [_transactionId] [msg.sender], "Transaction Is Already Confirmed By the owner.");
         isConfirmed [_transactionId] [msg.sender] =true;
         emit TransactionConfirmed (_transactionId);
-        if(isTransactionConfirmed(_transactionId)) {
-            executeTransaction(_transactionId);
-        }
+        // if(isTransactionConfirmed(_transactionId)) {
+        //     executeTransaction(_transactionId);
+        // }
     }
 
     function executeTransaction (uint _transactionId) public payable{
-        // require(isTransactionConfirmed(_transactionId), "Transaction not confirmed by all owners");
+        require(isTransactionConfirmed(_transactionId), "Transaction not confirmed by all owners");
         require(_transactionId<transactions.length, "Invalid Transaction Id");
         require(!transactions[_transactionId].executed, "Transaction is already executed");
         (bool success,) = transactions[_transactionId].to.call{value: transactions[_transactionId].value}("");

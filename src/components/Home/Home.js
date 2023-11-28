@@ -10,7 +10,9 @@ const Home = () => {
     const navigate = useNavigate();
     let location = useLocation();
     const [balance, setBalance] = useState(0.0);
-    const [TransactionRecord, setTransactionRecord] = useState([]);
+    let TransactionRecord = useRef([]);
+    // const [test, setTest] = useState([]);
+    // const [TransactionRecord, setTransactionRecord] = useState([]);
     console.log(localStorage.getItem('userWallet'));    //Retrieved from local Storage
     console.log(location.state.wallet);                 //Retrieved from props passed
 
@@ -34,24 +36,47 @@ const Home = () => {
                 const res = await axios.post(
                     "http://localhost:5000/FetchTransactionHistory",
                     { walletID: accounts[0] }
-                );
-                console.log(res.data);
-                setTransactionRecord(res.data);
+                )
+                // console.log(res.data, "data");
+                // setTest([...res.data])
+                TransactionRecord.current = res.data;
+                // setTransactionRecord([...res.data]);
+                // console.log(test, "test")
             } catch (err) {
                 console.log(err);
             }
 
         }
-
     };
 
+    // function timeout(delay) {
+    //     return new Promise( res => setTimeout(res, delay) );
+    // }
 
     useEffect(() => {
         loadBlockchain();
-    },[]);
+
+    }, []);
+
+    const executeTransaction = async (TransactionID) => {
+        const web3 = new Web3(window.ethereum);
+        const contractData = smartContract.networks["5777"];
+
+        if (contractData) {
+            const multiSig = await new web3.eth.Contract(smartContract.abi, contractData.address);
+            //CHANGE 0 TO transactionID
+            try {
+                await multiSig.methods.executeTransaction(TransactionID).send({
+                    from: localStorage.getItem('userWallet'),
+                    address: contractData.address,
+                });
+            } catch (err) {
+                console.log(err.message, "reason");
+            }
+        }
+    };
 
     return (
-
         <div>
             <div>
                 <NavBar />
@@ -64,7 +89,7 @@ const Home = () => {
                     <div>
                         Wallet ID: {location.state.wallet}
                     </div>
-                    <div className="py-4 mt-10 flex flex-row gap-4">
+                    <div className="py-4 mt-10 flex flex-col gap-4">
                         <div className="card card-compact w-96 bg-base-100 shadow-xl">
                             <div className="card-body">
                                 <h2 className="card-title">Balance</h2>
@@ -74,11 +99,36 @@ const Home = () => {
                         <div className="card card-compact w-96 bg-base-100 shadow-xl">
                             <div className="card-body">
                                 <h2 className="card-title">Pending/Locked Transactions</h2>
+                                <table className="min-w-full bg-white border border-gray-300">
+                                    <thead>
+                                        <tr>ede</tr>
+                                        <tr>
+                                            <th className="py-2 px-4 border-b text-left">Sender</th>
+                                            <th className="py-2 px-4 border-b text-left">Receiver</th>
+                                            <th className="py-2 px-4 border-b text-left">Ether</th>
+                                            <th className="py-2 px-4 border-b text-left"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {TransactionRecord.current.map((Records, index) => (
+                                            <tr key={index}>
+                                                <td className="py-2 px-4 border-b text-left">{Records.sender}</td>
+                                                <td className="py-2 px-4 border-b text-left">{Records.receiver}</td>
+                                                <td className="py-2 px-4 border-b text-left">{Records.ether}</td>
+                                                {console.log(index, Records.ether, "index")}
+                                                <button className="btn btn-success" onClick={() => executeTransaction(index)}>Execute</button>
+                                                {/* <td className="py-2 px-4 border-b text-left">{Records.Area}</td> */}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                                 <p>20 Ether</p>
                             </div>
                         </div>
                     </div>
 
+                    <br />
+                    <div>Transaction History</div>
                     <div className="p-4">
                         <table className="min-w-full bg-white border border-gray-300">
                             <thead>
@@ -86,15 +136,14 @@ const Home = () => {
                                     <th className="py-2 px-4 border-b text-left">Sender</th>
                                     <th className="py-2 px-4 border-b text-left">Receiver</th>
                                     <th className="py-2 px-4 border-b text-left">Ether</th>
-                                    <th className="py-2 px-4 border-b text-left">Specialization</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {TransactionRecord.map((Records, index) => (
+                                {TransactionRecord.current.map((Records, index) => (
                                     <tr key={index}>
-                                        <td className="py-2 px-4 border-b text-left">{Records.Sender}</td>
-                                        <td className="py-2 px-4 border-b text-left">{Records.Receiver}</td>
-                                        <td className="py-2 px-4 border-b text-left">{Records.Ether}</td>
+                                        <td className="py-2 px-4 border-b text-left">{Records.sender}</td>
+                                        <td className="py-2 px-4 border-b text-left">{Records.receiver}</td>
+                                        <td className="py-2 px-4 border-b text-left">{Records.ether}</td>
                                         {/* <td className="py-2 px-4 border-b text-left">{Records.Area}</td> */}
                                     </tr>
                                 ))}
