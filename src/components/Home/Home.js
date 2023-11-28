@@ -12,8 +12,6 @@ const Home = () => {
     const [balance, setBalance] = useState(0.0);
     let TransactionRecord = useRef([]);
     let ExecutableTransactions = useRef([]);
-    // const [test, setTest] = useState([]);
-    // const [TransactionRecord, setTransactionRecord] = useState([]);
     console.log(localStorage.getItem('userWallet'));    //Retrieved from local Storage
     console.log(location.state.wallet);                 //Retrieved from props passed
 
@@ -72,9 +70,6 @@ const Home = () => {
         }
 
     }
-    // function timeout(delay) {
-    //     return new Promise( res => setTimeout(res, delay) );
-    // }
 
     useEffect(() => {
         loadBlockchain();

@@ -68,14 +68,14 @@ const MakePayment = () => {
         <div>
           <Sidebar />
         </div>
-        <div className="left-0 flex flex-col justify-center item-center space-x-6">
-          <div className="flex flex-col justify-center my-2">
-            <div className="hero  bg-base-200">
-              <div className="hero-content flex lg:flex-row-reverse">
+        <div className="flex flex-col justify-center items-center space-x-6" style={{ width: "100%"}}>
+          <div className="flex flex-col justify-center my-2" style={{ width: "38rem"}}>
+            <div className="hero  bg-base-200 space-y-8">
+              <div className="hero-content flex lg:flex-row-reverse" style={{ width: "100%"}}>
                 <div className="card flex w-full max-w-xl shadow-2xl bg-base-100">
                   <form className="card-body ">
                     <div className="flex flex-row w-full gap-5">
-                      <div className="flex flex-col">
+                      <div className="flex flex-col" style={{ width: "100%"}}>
                         <div className="form-control">
                           <label className="label">
                             <span className="label-text">Transfer to</span>
@@ -124,21 +124,24 @@ const MakePayment = () => {
 
                       </div>
                     </div>
-
-                    
                   </form>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <button
-          className="btn btn-primary"
-          style={{color: "#FCFAD1", backgroundColor: "#6096BA", width: "200px",}}
+            <div>
+              <div style={{ width: "17rem"}}>
+              <button
+          className="ml-40 mt-10 btn btn-primary"
+          style={{ color: "#FCFAD1", backgroundColor: "#72693E", width: "100%" }}
           onClick={handleExecute}
         >
           TRANSFER
         </button>
+              </div>
+            
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

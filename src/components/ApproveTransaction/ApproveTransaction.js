@@ -48,7 +48,7 @@ const ApproveTransaction = () => {
         <div>
           <SideBar />
         </div>
-        <div className="flex flex-col space-y-6 space-x-12">
+        {/* <div className="flex flex-col space-y-6 space-x-12">
           <div className="dropdown space-x-12">
             <label tabIndex={0} className="btn m-1">
               Select Transaction
@@ -65,7 +65,37 @@ const ApproveTransaction = () => {
             </ul>
           </div>
           <div>
-            <button className="btn btn-outline btn-primary" onClick={approve}>Approve</button>
+            <button className="btn btn-outline btn-primary" onClick={approve} style={{ color: "#FCFAD1", backgroundColor: "#72693E" }}>Approve</button>
+          </div>
+        </div> */}
+        <div className="flex flex-row mt-8 mx-auto ml-4" style={{ width: "100%"}}>
+          <div className="p-2 w-2/3 h-20 shadow menu dropdown-content z-[1] bg-base-100 rounded-box flex flex-row justify-between">
+            <select
+              id="options"
+              placeholder="Yes/NO"
+              className="select select-bordered w-full focus:ring focus:ring-primary focus:border-primary"
+            >
+              <option value="" disabled hidden>
+                Select Transaction
+              </option>
+              {transactionDetails.map((transaction, index) => (
+                <option onClick={() => setSelected(index)} key={index} value={index}>
+                  {`Sender: ${transaction.sender}, Receiver: ${transaction.receiver}, Ether: ${transaction.ether}`}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="px-32">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full" style={{color:"#FCFAD1"}}></span>
+            </span>
+            <button
+              className="btn btn-outline  btn-primary w-52"
+              onClick={approve}
+              style={{ color: "#FCFAD1", backgroundColor: "#72693E" }}
+            >
+              Approve
+            </button>
           </div>
         </div>
       </div>
