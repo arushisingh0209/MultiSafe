@@ -9,15 +9,9 @@ const MakePayment = () => {
   const [receiver, setReceiver] = useState("");
   const [amount, setAmount] = useState();
 
-  const handleReceiver = (event) => {
+  const handleReceiver = (event) => 
+  {
     setReceiver(event.target.value);
-
-    // Ensure the value starts with "0x"
-    // if (!newValue.startsWith("0x")) {
-    //   newValue = "0x" + newValue;
-    // }
-
-    // setWalletId(newValue);
   };
 
   const handleAmount = (event) => {
@@ -67,7 +61,7 @@ const MakePayment = () => {
         <div>
           <Sidebar />
         </div>
-        <div className="left-0 flex flex-col justify-center item-center space-x-6">
+        <div className="px-80 flex flex-col justify-center item-center space-x-6">
           <div className="flex flex-col justify-center my-2">
             <div className="hero  bg-base-200">
               <div className="hero-content flex lg:flex-row-reverse">

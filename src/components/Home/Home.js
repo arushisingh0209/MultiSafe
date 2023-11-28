@@ -10,6 +10,7 @@ const Home = () => {
     const navigate = useNavigate();
     let location = useLocation();
     const [balance, setBalance] = useState(0.0);
+    const [TransactionRecord, setTransactionRecord] = useState([]);
     console.log(localStorage.getItem('userWallet'));    //Retrieved from local Storage
     console.log(location.state.wallet);                 //Retrieved from props passed
 
@@ -35,7 +36,7 @@ const Home = () => {
                   { walletID: accounts[0] }
                 );
                 console.log(res.data);
-                let TransactionRecord = res.data;
+                setTransactionRecord(res.data);
               } catch (err) {
                 console.log(err);
               }
