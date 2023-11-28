@@ -19,6 +19,9 @@ const TransactionSchema = new Schema({
     },
     isExecutable: {
         type: Boolean
+    },
+    isExecuted: {
+        type: Boolean
     }
 }
 )

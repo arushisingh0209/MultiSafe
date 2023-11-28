@@ -29,7 +29,7 @@ const ApproveTransaction = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.post("http://localhost:5000/FetchTransactionDetails");
+        const res = await axios.post("http://localhost:5000/FetchAll");
         setTransactionDetails(res.data); 
       } catch (err) {
         console.log(err);

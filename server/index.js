@@ -28,7 +28,8 @@ app.post("/PostTransactionRecord", async (req, res) => {
     receiver: receiver.toLowerCase(),
     ether: ether,
     executeAt: executeAt,
-    isExecutable: false
+    isExecutable: false,
+    isExceuted: false
   });
 
   transactionRecords.save();
@@ -37,17 +38,47 @@ app.post("/PostTransactionRecord", async (req, res) => {
 });
 
 app.post("/FetchTransactionDetails", async (req, res) => {
-  const transactionDetails = await TransactionSchema.find();
-    console.log(transactionDetails);
-    res.send(transactionDetails);
+  const { walletID } = req.body;
+  const transactionDetails = await TransactionSchema.find({
+    receiver: walletID,
+    isExecutable: true
+  });
+  console.log(transactionDetails);
+  res.send(transactionDetails);
 });
 
-app.post("/FetchTransactionHistory", async (req, res) => {
-  const{walletID} = req.body;
-  const transactionDetails = await TransactionSchema.find({receiver:walletID.toLowerCase()});
-    console.log(transactionDetails);
-    res.send(transactionDetails);
+app.post("/FetchAll", async (req, res) => {
+  const transactionDetails = await TransactionSchema.find({
+  });
+  console.log(transactionDetails);
+  res.send(transactionDetails);
 });
+
+
+app.post("/FetchTransactionHistory", async (req, res) => {
+  const { walletID } = req.body;
+  const conditions = {
+    $or: [
+      { sender: walletID.toLowerCase() },
+      { receiver: walletID.toLowerCase() }
+    ]
+  };
+  const transactionDetails = await TransactionSchema.find(conditions);
+  console.log(transactionDetails);
+  res.send(transactionDetails);
+});
+
+app.post("/UpdateExecution", async (req, res) => {
+  const { member_id } = req.body;
+  const updatedTransaction = await TransactionSchema.findByIdAndUpdate(
+    member_id,
+    { isExecuted: true }
+  );
+  if (!updatedTransaction) {
+    return res.status(404).json({ message: 'Transaction not found' });
+  }
+  res.send(updatedTransaction);
+})
 
 
 //Execute Transaction
@@ -59,7 +90,7 @@ setInterval(() => {
         var transactionTime = new Date(transaction.executeAt);
         if (!transaction.isExecutable && (transactionTime - now) < 0) {
           console.log(transaction);
-            await TransactionSchema.findByIdAndUpdate(transaction._id, { isExecutable: true });
+          await TransactionSchema.findByIdAndUpdate(transaction._id, { isExecutable: true });
         }
       })
     }
@@ -67,7 +98,6 @@ setInterval(() => {
     console.log(err);
   });
 }, 1000);
-
 
 
 app.listen(process.env.PORT, () => {
